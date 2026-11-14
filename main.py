@@ -57,6 +57,9 @@ def main():
     target = output_dir / "entry.png"
     shutil.copyfile(HERE / "entry.png", target)
     _check_image(target)
+    # Verify the copy landed byte-for-byte; a partial write must fail loudly.
+    if (HERE / "entry.png").read_bytes() != target.read_bytes():
+        raise ValueError("output does not match source image")
 
 
 if __name__ == "__main__":
